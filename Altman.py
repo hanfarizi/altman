@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 from streamlit_option_menu import option_menu
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
