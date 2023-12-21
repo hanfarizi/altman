@@ -67,29 +67,31 @@ def main():
             score = Altman(modal,Laba_Ditahan,Ebit,npe,Total_Aset,Total_Liabilities)
             prediksi = ""
             if score > 2.59 : 
-                prediksi = "Tidak Bangkrut"
+                prediksi = "tidak bangkrut"
                 st.success(prediksi)
                 st.success(f"score = {score:.2f}")
             elif score < 1.09 : 
-                prediksi = "Bangkrut"
+                prediksi = "bangkrut"
                 st.error(prediksi)
                 st.error(f"score = {score:.2f}")
             else : 
-                prediksi = "Grey Area"
+                prediksi = "grey area"
                 st.warning(prediksi)
                 st.warning(f"score = {score:.2f}")
             
             #simpan ke dataset
-            data = {'Tahun':[tahun],'Aktiva Lancar':[Aktiva], 'Hutang Lancar':[Hutang],'modal':[modal], 'Laba Ditahan':[Laba_Ditahan],'EBIT':[Ebit],'Harga Saham': [Harga_Saham], 'Jumlah Saham': [Jumlah_Saham],'NPE':[npe],'Total Aset':[Total_Aset],'Total Liabilitas':[Total_Liabilities],'Prediksi':[prediksi]}
+            data = {'Nama_Perusahaan':[nama],'Tahun':[tahun],'Aktiva_Lancar':[Aktiva], 'Hutang_Lancar':[Hutang],'Modal_Kerja':[modal], 'Laba_Ditahan':[Laba_Ditahan],'Laba_Sebelum_Bunga_dan_Pajak':[Ebit],'Jumlah_Saham': [Jumlah_Saham], 'Harga_Saham': [Harga_Saham],'Nilai_Pasar_Ekuitas':[npe],'Total_Aset':[Total_Aset],'Total_Liabilitas':[Total_Liabilities],'Altman_Z_Score':[score],'Prediksi':[prediksi]}
             
-            df = pd.DataFrame(data)
+            df_input = pd.DataFrame(data)
             
             #Import ke csv
             if os.path.exists('database/database.csv'):
-                df1 = pd.read_csv('database/database.csv')
-                merged_df = pd.concat([df,df1])
-                
-                merged_df.sort_values(by='Tahun',ascending=False).to_csv('database/database.csv', index=False)
+                df_base = pd.read_csv('database/database.csv')
+                df_base = pd.concat([df_base, df_input])
+                # merged_df = pd.concat([df,df1])
+                df_base.sort_values(by=['Nama_Perusahaan', 'Tahun'], ascending=[
+                                    True, True]).to_csv('database/database.csv', index=False)
+                # merged_df.sort_values(by='Tahun',ascending=False).to_csv('database/database.csv', index=False)
                 
     elif menu == "Visualisasi" :
         st.header("Visual")
@@ -150,12 +152,19 @@ def main():
         
 
     elif menu == "Dataset" :
-        st.write("Dataset")
+        st.header("Dataset")
         df_set = pd.read_csv('database/database.csv')
         df_set['Tahun'] = df_set['Tahun'].astype(str)
         df_set
 
-    
+    elif menu == "About" :
+        _, col2, _ = st.columns(3)
+        with col2:
+            st.header("Tentang Web", )
+            
+        st.markdown("  Web prediksi kebangkrutan ini menggunakan metode Altman Z score, karena metode ini memiliki lebih banyak keuntungan daripada metode prediksi kebangkrutan lainnya yang telah menggabungkan beberapa rasio yang diperlukan untuk mengevaluasi likuiditas, profitabilitas, solvabilitas dan aktivitas. Selain itu, rasio Z-Score telah mencakup evaluasi internal dan eksternal perusahaan. Berikut adalah metode altman jika ditulis secara matematis : ")
+        st.markdown("Z =  6,56X1  +  3,26X2  +  6,72X3  +  1,05X4")
+        st.markdown("Altman menggunakan 5 rasio keuangan, yaitu variabel X1 (Modal Kerja/Total Aset), variable X2 (Laba Ditahan/Total Aset), variabel X3 (Laba Sebelum Pajak/Total Aset), variabel X4 (Nilai Pasar Ekuitas/Total Liabilitas)")
     
 if __name__ == '__main__':
 	main()
