@@ -152,6 +152,7 @@ def main():
     elif menu == "Dataset" :
         st.write("Dataset")
         df_set = pd.read_csv('database/database.csv')
+        df_set['Tahun'] = df_set['Tahun'].astype(str)
         df_set
 
     
