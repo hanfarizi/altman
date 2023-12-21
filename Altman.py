@@ -101,6 +101,10 @@ def main():
         
         if selected_company : 
             company_data = df_visual[df_visual['Nama_Perusahaan'] == selected_company]
+            company_data['Tahun'] = company_data['Tahun'].astype(str)
+            df_score = company_data[['Tahun','Altman_Z_Score','Prediksi']]
+            st.write(df_score)
+            
             plt.figure(figsize=(10, 6))
             sns.lineplot(data=company_data, x='Tahun', y='Altman_Z_Score', marker='o')
             plt.title(f'Altman Z-Score {selected_company} per Tahun')
