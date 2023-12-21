@@ -35,7 +35,7 @@ def main():
         styles={
             "container": {"padding": "0!important", "background-color": "#fafafa"},
             "icon": {"color": "orange", "font-size": "25px"}, 
-            "nav-link": {"font-size": "20px", "text-align": "left", "margin":"5px", "--hover-color": "#eee"},
+            "nav-link": {"font-size": "15px", "text-align": "left", "margin":"5px", "--hover-color": "#eee"},
             "nav-link-selected": {"background-color": "green"},
         }
     )
